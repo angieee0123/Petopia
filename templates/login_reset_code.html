@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Petopia • Enter Reset Code</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* reuse same styles as above but condensed */
+    :root { --bg:#f6f8ff;--panel:rgba(255,255,255,.6);--panel-strong:rgba(255,255,255,.9);--text:#0b0f1a;--muted:#5b6378;--accent:#7cf4d1;--accent-2:#8bb6ff;--ring:rgba(124,244,209,0.7);--shadow:0 20px 60px rgba(16,24,40,.15);}
+    body{margin:0;font-family:Inter,system-ui;display:flex;justify-content:center;align-items:center;height:100vh;background:var(--bg);}
+    .aurora{position:fixed;inset:0;filter:blur(60px);}
+    .blob{position:absolute;width:60vmax;height:60vmax;border-radius:50%;mix-blend-mode:screen;opacity:.55;animation:float 18s ease-in-out infinite;}
+    .blob.a{background:radial-gradient(circle at 30% 30%,var(--accent),transparent 60%);left:-20vmax;top:-10vmax;}
+    .blob.b{background:radial-gradient(circle at 70% 30%,var(--accent-2),transparent 60%);right:-15vmax;top:-5vmax;}
+    .blob.c{background:radial-gradient(circle at 50% 70%,#f39cff,transparent 60%);left:10vmax;bottom:-20vmax;}
+    @keyframes float{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-4%,0) scale(1.05)}}
+    .panel{width:min(420px,92vw);padding:32px;border-radius:20px;background:var(--panel);border:1px solid var(--panel-strong);box-shadow:var(--shadow);backdrop-filter:blur(16px);}
+    h2{text-align:center;margin:0 0 8px;}
+    p{text-align:center;color:var(--muted);font-size:14px;margin:0 0 18px;}
+    .otp{display:flex;gap:12px;justify-content:center;margin-bottom:20px;}
+    .otp input{width:100%;max-width:54px;height:54px;text-align:center;font-size:20px;border-radius:14px;border:2px solid var(--accent);background:rgba(255,255,255,.04);color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s;}
+    .otp input:focus{border-color:var(--ring);box-shadow:0 0 0 6px rgba(124,244,209,.15);}
+    .btn{width:100%;padding:14px;border:0;border-radius:16px;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent-2));cursor:pointer;color:#051014;}
+    footer{position:fixed;bottom:12px;left:0;right:0;text-align:center;color:var(--muted);font-size:12px;}
+  </style>
+</head>
+<body>
+  <div class="aurora"><div class="blob a"></div><div class="blob b"></div><div class="blob c"></div></div>
+  <div class="panel">
+    <h2>Enter Reset Code</h2>
+    <p>Please enter the 6-digit code sent to your email.</p>
+    <form>
+      <div class="otp">
+        <input type="text" maxlength="1">
+        <input type="text" maxlength="1">
+        <input type="text" maxlength="1">
+        <input type="text" maxlength="1">
+        <input type="text" maxlength="1">
+        <input type="text" maxlength="1">
+      </div>
+      <button class="btn" type="submit">Verify Code</button>
+    </form>
+  </div>
+  <footer>© <span id="year"></span> Petopia</footer>
+  <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+</body>
+</html>
