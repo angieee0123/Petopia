@@ -59,7 +59,7 @@
       gap: 12px;
     }
     .otp-inputs input {
-      border: 2px solid var(--accent); /* Use accent color for visible outline */
+      border: 2px solid var(--accent);
       background: rgba(255,255,255,.04);
       color: var(--text);
       border-radius: 14px;
@@ -145,28 +145,50 @@
   <footer>© <span id="year"></span> Petopia — For happy pets & happy owners 🐶🐱🐦</footer>
 
   <script>
-    // Auto focus to next field
     const inputs = document.querySelectorAll('.otp-inputs input');
+
+    // Allow typing continuously
     inputs.forEach((input, idx) => {
-      input.addEventListener('input', () => {
-        if (input.value && idx < inputs.length - 1) {
-          inputs[idx + 1].focus();
-        }
+      input.addEventListener('input', e => {
+        const value = input.value;
+        if (!/^\d$/.test(value)) { input.value = ''; return; } // only digits
+        if (idx < inputs.length - 1) inputs[idx + 1].focus();
       });
-      input.addEventListener('keydown', (e) => {
+
+      input.addEventListener('keydown', e => {
         if (e.key === 'Backspace' && !input.value && idx > 0) {
           inputs[idx - 1].focus();
         }
       });
     });
 
-    // Fake submit
-    document.getElementById('otpForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      alert('Replace with backend OTP verification logic');
+    // Submit on Enter
+    document.getElementById('otpForm').addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        submitOTP();
+      }
     });
 
-    // Year in footer
+    // Submit button
+    document.getElementById('otpForm').addEventListener('submit', e => {
+      e.preventDefault();
+      submitOTP();
+    });
+
+    function submitOTP() {
+      const enteredOTP = Array.from(inputs).map(i => i.value).join('');
+      const correctOTP = "123456"; // replace with backend OTP
+      if (enteredOTP === correctOTP) {
+        alert('✅ OTP Verified Successfully!');
+        setTimeout(() => { window.location.href = 'login.html'; }, 500);
+      } else {
+        alert('❌ Incorrect OTP. Please try again.');
+        inputs.forEach(i => i.value = '');
+        inputs[0].focus();
+      }
+    }
+
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>

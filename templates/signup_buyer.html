@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Petopia • Sign Up</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+<style>
+:root {
+  --bg: #f6f8ff;
+  --panel: rgba(255,255,255,.6);
+  --panel-strong: rgba(255,255,255,.9);
+  --text: #0b0f1a;
+  --muted: #5b6378;
+  --accent: #7cf4d1;
+  --accent-2: #8bb6ff;
+  --ring: rgba(139,182,255,0.45);
+  --error: #ff6b6b;
+  --shadow: 0 20px 60px rgba(16,24,40,.15);
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; color: var(--text); background: var(--bg); overflow-x: hidden; }
+html, body {
+  height: 100%;
+  overflow: hidden; /* prevent scrolling completely */
+}
+
+.wrap {
+  min-height: 100vh; /* keep full viewport height */
+  overflow: hidden;   /* prevent internal scroll */
+}
+.panel-wrap {
+  overflow: hidden;  /* remove scroll inside panels */
+}
+.panel {
+  overflow: visible; /* ensure content shows without scroll */
+}
+
+a.back-home {
+  position: fixed; top: 16px; left: 16px; z-index: 99; background: var(--panel); padding: 5px 12px;
+  border-radius: 999px; text-decoration: none; color: var(--text); font-weight: 600; box-shadow: var(--shadow);
+  border: 1px solid var(--panel-strong); display: inline-flex; align-items: center; gap: 6px; font-size: 13px;
+}
+a.back-home i { font-size: 15px; }
+
+.aurora { position: fixed; inset: 0; filter: blur(60px); pointer-events: none; overflow: hidden; }
+.blob { position: absolute; width: 60vmax; height: 60vmax; border-radius: 50%; mix-blend-mode: screen; opacity: .55; animation: float 18s ease-in-out infinite; }
+.blob.a { background: radial-gradient(circle at 30% 30%, var(--accent), transparent 60%); left: -20vmax; top: -10vmax; }
+.blob.b { background: radial-gradient(circle at 70% 30%, var(--accent-2), transparent 60%); right: -15vmax; top: -5vmax; animation-delay: 4s; }
+.blob.c { background: radial-gradient(circle at 50% 70%, #f39cff, transparent 60%); left: 10vmax; bottom: -20vmax; animation-delay: 8s; }
+@keyframes float { 0%,100% { transform: translate3d(0,0,0) scale(1);} 50% { transform: translate3d(0,-4%,0) scale(1.05);} }
+
+.wrap { display: grid; grid-template-columns: 1.1fr .9fr; min-height: 100vh; }
+@media (max-width: 980px) { .wrap { grid-template-columns: 1fr; } .hero { display: none; } }
+
+.hero { display: grid; place-items: center; padding: 6vmin; }
+.hero-inner { max-width: 640px; text-align: left; }
+.brand { display: inline-flex; align-items: center; gap: .6rem; padding: .5rem .9rem; border-radius: 999px; background: var(--panel); backdrop-filter: blur(10px); border: 1px solid var(--panel-strong); box-shadow: var(--shadow); }
+.logo { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 8px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #051014; font-weight: 800; }
+h1 { margin: 16px 0 10px; font-size: clamp(36px, 5.2vw, 56px); line-height: 1.02; }
+p.lede { margin: 0; color: var(--muted); font-size: clamp(14px, 1.6vw, 16px); }
+
+.panel-wrap { display: grid; place-items: center; padding: 2vmin 2vmin; }
+.panel { width: min(600px, 95vw); overflow-y: visible; padding: 28px; border-radius: 22px; background: var(--panel); border: 1px solid var(--panel-strong); box-shadow: var(--shadow); backdrop-filter: blur(18px); }
+.panel header { display:flex; justify-content: space-between; align-items:center; margin-bottom: 20px; flex-wrap: wrap; gap:20px; }
+.panel header h2 { margin: 0; font-size: 26px; }
+
+form { margin-top: 5px; display: grid; gap: 5px; }
+.field { display: grid; gap: 8px; }
+label { font-size: 14px; color: var(--muted); }
+.control { position: relative; }
+.control input, .control select, .control textarea {
+  width: 100%; padding: 12px 44px 12px 14px; border-radius: 14px; border: 1px solid var(--panel-strong);
+  background: rgba(255,255,255,.7); color: var(--text); font-size: 15px; outline: none;
+}
+.control textarea { min-height: 88px; resize: vertical; padding-top:10px; padding-bottom:10px; }
+.control input:focus, .control select:focus, .control textarea:focus { border-color: var(--accent-2); box-shadow: 0 0 0 2px var(--ring); }
+.control i { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+
+.btn { width: 100%; padding: 14px 16px; border: 0; border-radius: 16px; font-weight: 700; cursor: pointer; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #051014; box-shadow: 0 12px 30px rgba(139,182,255,.25); transition: transform .2s; }
+.btn:hover { transform: translateY(-2px); }
+.btn-outline { background: transparent; border: 2px solid var(--accent-2); color: var(--accent-2); box-shadow: none; transition: border-color .2s, color .2s; }
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+.btn-row { display:flex; gap:10px; margin-top:6px; flex-wrap: wrap; }
+.progress { display:flex; gap:8px; align-items:center; margin-bottom:10px; flex-wrap: wrap; }
+.dot { width:10px; height:10px; border-radius:50%; background: rgba(0,0,0,0.08); }
+.dot.active { background: linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow: 0 6px 16px rgba(139,182,255,.18); }
+
+.small-muted { font-size:12px; color:var(--muted); margin-top:6px; }
+
+.meta { margin-top: 12px; text-align: center; font-size: 14px; color: var(--muted); }
+.link { color: var(--accent-2); font-weight: 600; text-decoration: none; }
+.link:hover { text-decoration: underline; }
+
+footer { position: relative; bottom: 0; left: 0; right: 0; text-align: center; color: var(--muted); font-size: 12px; padding: 8px 0; }
+@media (max-width:620px) { .btn-row { flex-direction: column; } }
+
+#sellerStep3 { height: 100%; max-width: 520px; margin: 0 auto; font-size: 14px; }
+#sellerStep3 .field label { font-size: 13px; }
+#sellerStep3 .control input, #sellerStep3 .control select, #sellerStep3 .control textarea { font-size: 14px; padding: 10px 12px; }
+#sellerStep3 h3 { font-size: 16px; }
+#sellerStep3 .btn { font-size: 14px; padding: 12px 14px; }
+#sellerStep3 .small-muted { font-size: 12px; }
+#sellerStep3 .two-col { gap: 12px; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<a href="index.html" class="back-home"><i class="ri-arrow-left-line"></i> Back to Home</a>
+
+<div class="aurora">
+  <div class="blob a"></div>
+  <div class="blob b"></div>
+  <div class="blob c"></div>
+</div>
+
+<main class="wrap">
+  <!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="brand">
+      <span class="logo">🐾</span>
+      <strong>Petopia</strong>
+      <span style="color:var(--muted)">Pet Shop Essentials</span>
+    </div>
+    <h1>Sign Up as Buyer</h1>
+    <p class="lede">Find everything your pet needs and enjoy exclusive deals by joining as a buyer.</p>
+  </div>
+</section>
+
+  <!-- BUYER FORM -->
+  <section class="panel-wrap">
+    <div class="panel">
+      <header><h2>Create Your Petopia Account</h2></header>
+      <form id="buyerForm">
+        <input type="hidden" name="role" value="buyer" />
+        <div class="two-col">
+          <div class="field">
+            <label>Full Name</label>
+            <div class="control"><input id="buyerFullname" name="fullname" type="text" placeholder="Juan dela Cruz" required><i class="ri-user-line"></i></div>
+          </div>
+          <div class="field">
+            <label>Email</label>
+            <div class="control"><input id="buyerEmail" name="email" type="email" placeholder="you@example.com" required><i class="ri-mail-line"></i></div>
+          </div>
+        </div>
+        <div class="two-col">
+          <div class="field">
+            <label>Password</label>
+            <div class="control"><input id="buyerPassword" name="password" type="password" placeholder="••••••••" minlength="8" required><i class="ri-lock-2-line"></i></div>
+          </div>
+          <div class="field">
+            <label>Confirm Password</label>
+            <div class="control"><input id="buyerConfirm" name="confirm" type="password" placeholder="••••••••" minlength="8" required><i class="ri-lock-2-line"></i></div>
+          </div>
+        </div>
+        <div class="two-col">
+          <div class="field">
+            <label>Phone Number</label>
+            <div class="control"><input id="buyerPhone" name="phone" type="text" placeholder="09XXXXXXXXX" required><i class="ri-phone-line"></i></div>
+          </div>
+          <div class="field">
+            <label>Date of Birth</label>
+            <div class="control"><input name="dob" type="date"></div>
+          </div>
+        </div>
+        <div class="two-col">
+          <div class="field">
+            <label>Gender</label>
+            <div class="control">
+              <select name="gender">
+                <option value="">Rather not say</option>
+                <option>Male</option>
+                <option>Female</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <div class="field"><label>Complete Address</label><div class="control"><input name="address" type="text" placeholder="Street, Barangay, City, Province, ZIP" required></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Profile Photo (optional)</label>
+          <div class="control"><input name="profile_photo" type="file" accept="image/*"></div>
+        </div>
+
+        <div class="field">
+          <div class="control" style="display: flex; align-items: center; gap: 12px; min-height: 32px;">
+            <input type="checkbox" name="agreement" id="buyerAgreement" style="margin:0; width:18px; height:18px; flex-shrink:0;" required>
+            <label for="buyerAgreement" style="font-size:14px; color:var(--muted); line-height:1.5; cursor:pointer;">
+              I agree to <a href="#" class="link show-terms">Petopia's Terms and Conditions</a>
+            </label>
+          </div>
+        </div>
+        <div class="btn-row">
+            <button class="btn btn-outline" type="button" onclick="window.location.href='signup_role_selection.html'">Back</button>
+          <button class="btn" type="submit">Sign Up</button>
+        </div>
+
+        <div class="small-muted" style="margin-top:2px;">
+          After submitting, please check your email for a verification code to confirm your account.
+        </div>
+        <div class="meta">
+          Already have an account? <a class="link" href="login.html">Login</a>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<!-- Terms Modal -->
+<div id="termsModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(11,15,26,0.32); backdrop-filter:blur(2px); align-items:center; justify-content:center;">
+  <div style="background:var(--panel-strong); max-width:480px; width:90vw; margin:auto; border-radius:18px; box-shadow:var(--shadow); padding:32px 24px 20px 24px; position:relative;">
+    <button id="closeTerms" style="position:absolute; top:12px; right:12px; background:none; border:none; font-size:22px; color:var(--muted); cursor:pointer;">&times;</button>
+    <h2 style="margin-top:0; font-size:22px;">Petopia Terms and Conditions</h2>
+<div style="max-height:48vh; overflow-y:auto; font-size:14px; color:var(--text); margin-bottom:18px;">
+  <h3>1. Account Responsibilities</h3>
+  <p>By creating a Petopia account, you agree to provide accurate personal information and to keep your login credentials secure. You are responsible for all activities that occur under your account.</p>
+  <h3>2. Purchasing and Payments</h3>
+  <p>Buyers must ensure that payment and delivery information is correct. Orders are binding once confirmed. Unauthorized or fraudulent payments are strictly prohibited.</p>
+  <h3>3. Delivery and Shipping</h3>
+  <p>Petopia and sellers will make reasonable efforts to deliver your orders on time. Buyers must provide accurate shipping details. Delays caused by incorrect information are not Petopia’s responsibility.</p>
+  <h3>4. Returns and Refunds</h3>
+  <p>Return requests must follow Petopia’s return policy. Items should be returned in their original condition. Refunds are processed after inspection of returned items.</p>
+
+  <h3>5. Prohibited Activities</h3>
+  <p>Buyers may not engage in illegal activity, fraud, harassment, or misuse of the platform. Petopia may suspend or terminate accounts for violations.</p>
+
+  <h3>6. Intellectual Property</h3>
+  <p>All content, logos, and materials on Petopia are the property of Petopia or its licensors. Unauthorized use is prohibited.</p>
+
+  <h3>7. Privacy</h3>
+  <p>Petopia collects and uses personal information according to its Privacy Policy. By using the site, you consent to these practices.</p>
+
+  <h3>8. Liability</h3>
+  <p>Petopia is not responsible for damages arising from transactions between buyers and sellers. Buyers transact at their own risk and are expected to follow platform guidelines.</p>
+
+  <h3>9. Updates</h3>
+  <p>Petopia may update these Terms and Conditions at any time. Continued use of the platform constitutes acceptance of any updates.</p>
+
+  <p>By checking the box and submitting, you agree to abide by Petopia’s Terms and Conditions.</p>
+</div>
+
+  </div>
+</div>
+
+<script>
+// TERMS MODAL
+document.querySelectorAll(".show-terms").forEach(function (link) {
+  link.addEventListener("click", function (e) {
+    e.preventDefault();
+    document.getElementById("termsModal").style.display = "flex";
+  });
+});
+document.getElementById("closeTerms").onclick = function (e) {
+  e.preventDefault();
+  document.getElementById("termsModal").style.display = "none";
+};
+
+// REAL-TIME VALIDATION
+function markField(field, valid) {
+  if (!field) return;
+  field.style.borderColor = valid ? "green" : "var(--error)";
+}
+
+window.addEventListener("DOMContentLoaded", function () {
+  const emailField = document.getElementById("buyerEmail");
+  const phoneField = document.getElementById("buyerPhone");
+  const pwField = document.getElementById("buyerPassword");
+  const cfField = document.getElementById("buyerConfirm");
+  const dobField = document.querySelector("input[name='dob']");
+
+  // Email
+  if (emailField) {
+    emailField.addEventListener("input", function () {
+      const pattern =  /^[^\s@]+@(gmail|yahoo)\.com$/i;
+      markField(emailField, pattern.test(emailField.value));
+    });
+  }
+
+  // Password + Confirm
+  function checkPassword() {
+    if (pwField.value.length < 8) {
+      markField(pwField, false);
+    } else {
+      markField(pwField, true);
+    }
+    if (pwField.value !== cfField.value || cfField.value.length === 0) {
+      markField(cfField, false);
+    } else {
+      markField(cfField, true);
+    }
+  }
+  if (pwField && cfField) {
+    pwField.addEventListener("input", checkPassword);
+    cfField.addEventListener("input", checkPassword);
+  }
+
+  // Phone
+  if (phoneField) {
+    phoneField.addEventListener("input", function () {
+      markField(phoneField, /^09\d{9}$/.test(phoneField.value));
+    });
+  }
+
+  // Birthdate (real-time)
+  if (dobField) {
+    dobField.addEventListener("change", function () {
+      if (!dobField.value) {
+        markField(dobField, false);
+        return;
+      }
+      const today = new Date();
+      const birthDate = new Date(dobField.value);
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      markField(dobField, age >= 18);
+    });
+  }
+});
+
+// FORM SUBMIT VALIDATION
+document.getElementById("buyerForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const email = document.getElementById("buyerEmail");
+  const phone = document.getElementById("buyerPhone");
+  const pw = document.getElementById("buyerPassword");
+  const confirm = document.getElementById("buyerConfirm");
+  const dob = document.querySelector("input[name='dob']");
+
+  // Email
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailPattern.test(email.value)) {
+    markField(email, false);
+    alert("Please enter a valid email address.");
+    return;
+  }
+
+  // Phone
+  const phonePattern = /^09\d{9}$/;
+  if (!phonePattern.test(phone.value)) {
+    markField(phone, false);
+    alert("Please enter a valid phone number (e.g., 09123456789).");
+    return;
+  }
+
+  // Password length
+  if (pw.value.length < 8) {
+    markField(pw, false);
+    alert("Password must be at least 8 characters.");
+    return;
+  }
+
+  // Password match
+  if (pw.value !== confirm.value) {
+    markField(confirm, false);
+    alert("Passwords do not match.");
+    return;
+  }
+
+  // Birthdate REQUIRED
+  if (!dob.value) {
+    markField(dob, false);
+    alert("Please select your birthdate.");
+    return;
+  }
+  const today = new Date();
+  const birthDate = new Date(dob.value);
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  if (age < 18) {
+    markField(dob, false);
+    alert("You must be at least 18 years old to sign up.");
+    return;
+  }
+
+  alert("Verification code has been sent to your email.");
+  window.location.href = "login_otp_verification.html";
+});
+</script>
+
+</body>
+</html>

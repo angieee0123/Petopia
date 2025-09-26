@@ -82,9 +82,34 @@
       background: linear-gradient(90deg, transparent, #b0b8c9, transparent);
     }
 
-    .socials { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-    .socials button { border: 2px solid var(--accent); background: rgba(255,255,255,.04); color: var(--text); border-radius: 14px; padding: 12px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-weight: 600; }
-    .socials i { font-size: 20px; }
+    .socials {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 10px;
+    }
+    .socials button {
+      border: 2px solid var(--accent);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      border-radius: 50%;
+      width: 52px;
+      height: 52px;
+      padding: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      transition: box-shadow .2s, border-color .2s;
+    }
+    .socials button:hover {
+      border-color: var(--accent-2);
+      box-shadow: 0 0 0 4px var(--ring);
+    }
+    .socials i {
+      font-size: 26px;
+    }
 
     .msg { margin-top: 10px; font-size: 13px; min-height: 18px; }
     .msg.error { color: var(--error); }
@@ -139,7 +164,7 @@
             <label for="password">Password</label>
             <div class="control">
               <input id="password" name="password" type="password" autocomplete="current-password" placeholder="••••••••" required minlength="6" aria-describedby="passTip" />
-              <span class="tooltip" id="passTip">At least 6 characters</span>
+              <span class="tooltip" id="passTip">At least 8 characters</span>
               <i class="ri-eye-off-line" id="togglePw" aria-hidden="true" title="Show/Hide password"></i>
             </div>
           </div>
@@ -149,7 +174,7 @@
               <input id="remember" name="remember" type="checkbox" />
               Remember me
             </label>
-            <a class="link" href="#" onclick="alert('Implement your forgot password route');return false;">Forgot password?</a>
+            <a class="link" href="login_forgot_password.html" >Forgot password?</a>
           </div>
 
           <button class="btn" type="submit">Continue</button>
@@ -157,75 +182,81 @@
           <div class="divider">or continue with</div>
 
           <div class="socials">
-            <button type="button" aria-label="Sign in with Google"><i class="ri-google-fill"></i> Google</button>
-            <button type="button" aria-label="Sign in with Facebook"><i class="ri-facebook-circle-fill"></i> Facebook</button>
+            <button type="button" aria-label="Sign in with Google"><i class="ri-google-fill"></i></button>
           </div>
 
           <div class="meta">
-            <span>Don't have an account? <a class="link" href="signup.html">Sign up</a></span>
+            <span>Don't have an account? <a class="link" href="signup_role_selection.html">Sign up</a></span>
           </div>
         </form>
       </div>
     </section>
   </main>
 
-  <footer>© <span id="year"></span> Petopia — For happy pets & happy owners 🐶🐱🐦</footer>
 
-  <script>
-    // Password show/hide
-    const togglePw = document.getElementById('togglePw');
-    const pw = document.getElementById('password');
-    togglePw.addEventListener('click', () => {
-      const showing = pw.type === 'text';
-      pw.type = showing ? 'password' : 'text';
-      togglePw.className = showing ? 'ri-eye-off-line' : 'ri-eye-line';
-    });
+<script>
+  // Password show/hide
+  const togglePw = document.getElementById('togglePw');
+  const pw = document.getElementById('password');
+  togglePw.addEventListener('click', () => {
+    const showing = pw.type === 'text';
+    pw.type = showing ? 'password' : 'text';
+    togglePw.className = showing ? 'ri-eye-off-line' : 'ri-eye-line';
+  });
 
-    // Simple form validation demo (replace with your real auth)
-    const form = document.getElementById('loginForm');
-    const msg = document.getElementById('msg');
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const email = document.getElementById('email').value.trim();
-      const pass = pw.value.trim();
+  // Fake user data (demo purpose only)
+  const users = [
+    { email: "buyer@example.com", password: "buyer1234", role: "buyer" },
+    { email: "seller@example.com", password: "seller1234", role: "seller" },
+    { email: "rider@example.com", password: "rider1234", role: "rider" },
+    { email: "admin@example.com", password: "admin1234", role: "admin" }
+  ];
 
-      if (!email || !pass) {
-        msg.textContent = 'Please fill in all fields.';
-        msg.className = 'msg error';
-        return;
-      }
-      if (pass.length < 6) {
-        msg.textContent = 'Password must be at least 6 characters.';
-        msg.className = 'msg error';
-        return;
-      }
-      msg.textContent = 'Looks good! Submitting… (hook this to your backend)';
-      msg.className = 'msg ok';
+  const form = document.getElementById('loginForm');
+  const msg = document.getElementById('msg');
 
-      // Simulated redirect
-      setTimeout(() => {
-        msg.textContent = '';
-        alert('Replace this with a real redirect to /dashboard');
-      }, 800);
-    });
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    const pass = pw.value.trim();
 
-    // Year in footer
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Slight 3D tilt on hero card (desktop only)
-    const card = document.querySelector('.card-3d');
-    if (card) {
-      const rect = () => card.getBoundingClientRect();
-      card.addEventListener('mousemove', (e) => {
-        const r = rect();
-        const x = (e.clientX - r.left) / r.width - 0.5;
-        const y = (e.clientY - r.top) / r.height - 0.5;
-        card.style.transform = `rotateY(${x * -10}deg) rotateX(${y * 8}deg)`;
-      });
-      card.addEventListener('mouseleave', () => {
-        card.style.transform = 'rotateY(-10deg) rotateX(6deg)';
-      });
+    if (!email || !pass) {
+      msg.textContent = 'Please fill in all fields.';
+      msg.className = 'msg error';
+      return;
     }
-  </script>
+    if (pass.length < 8) {
+      msg.textContent = 'Password must be at least 8 characters.';
+      msg.className = 'msg error';
+      return;
+    }
+
+    // Check credentials
+    const user = users.find(u => u.email === email && u.password === pass);
+    if (!user) {
+      msg.textContent = 'Invalid email or password.';
+      msg.className = 'msg error';
+      alert("Login failed: Wrong credentials.");
+      return;
+    }
+
+    // Success
+    msg.textContent = 'Login successful! Redirecting...';
+    msg.className = 'msg ok';
+    alert("Welcome back, " + user.role + "!");
+
+    setTimeout(() => {
+      if (user.role === "buyer") {
+        window.location.href = "buyer_homepage.html";
+      } else if (user.role === "seller") {
+        window.location.href = "seller_dashboard.html";
+      } else if (user.role === "rider") {
+        window.location.href = "rider_dashboard.html";
+      } else if (user.role === "admin") {
+        window.location.href = "admin_dashboard.html";
+      }
+    }, 1000);
+  });
+</script>
 </body>
 </html>
